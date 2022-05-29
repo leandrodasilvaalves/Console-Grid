@@ -1,4 +1,6 @@
-namespace ConsoleGrid
+using System;
+
+namespace Sample
 {
     public class Produto
     {
