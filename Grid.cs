@@ -4,7 +4,8 @@ public class Grid
     private readonly int[] _columnsWidth;
     private readonly string[] _columnsFormat;
     private readonly string? _title;
-    private string _footer;
+    private int _maxWidth;
+    private string? _footer;
 
     public Grid(string title, params int[] widthColumns)
         : this(widthColumns)
@@ -28,6 +29,7 @@ public class Grid
             columns[i] = new Column(titles[i], _columnsWidth[i]);
 
         _rows.Add(new Row(columns));
+        _maxWidth = _rows?.FirstOrDefault()?.Width ?? 25;
     }
 
     public void ColumnsFormat(params string[] formats)
@@ -40,8 +42,12 @@ public class Grid
     {
         foreach (var obj in dataSource)
         {
+            if (obj is null)
+                continue;
+
             var columns = new Column[_columnsWidth.Length];
             var i = 0;
+
             foreach (var prop in obj.GetType().GetProperties())
             {
                 var fmt = _columnsFormat[i];
@@ -62,6 +68,8 @@ public class Grid
     {
         if (!string.IsNullOrEmpty(_title))
             PrintTitle();
+        else
+            PrintBorder();
 
         foreach (var row in _rows)
             Console.WriteLine(row);
@@ -72,24 +80,19 @@ public class Grid
 
     private void PrintTitle()
     {
-        var width = _rows?.FirstOrDefault()?.Width;
-        PrintBorder(width.Value);
-
-        var title = "| " + _title.ToUpper();
-        Console.WriteLine(title.PadRight(width.Value - 1, ' ') + "|");
-
-        PrintBorder(width.Value);
+        PrintBorder();
+        Console.WriteLine("| " + _title?.ToUpper().PadRight(_maxWidth - 3, ' ') + "|");
+        PrintBorder();
     }
 
-    private void PrintBorder(int width)
+    private void PrintBorder()
     {
-        Console.WriteLine(new string('-', width));
+        Console.WriteLine(new string('-', _maxWidth));
     }
 
     private void PrintFooter()
     {
-        var width = _rows?.FirstOrDefault()?.Width;
-        Console.WriteLine("|" + _footer.PadLeft(width.Value - 3, ' ') + " |");
-        PrintBorder(width.Value);
+        Console.WriteLine("|" + _footer?.PadLeft(_maxWidth - 3, ' ') + " |");
+        PrintBorder();
     }
 }
