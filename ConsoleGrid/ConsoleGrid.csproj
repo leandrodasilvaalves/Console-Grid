@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+        <PackageId>LeandroAlves.ConsoleGrid</PackageId>
+        <License>MIT</License>
+        <Version>0.0.2</Version>
+        <Authors>Leandro Alves</Authors>
+        <Company>leandroalves86</Company>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>Console Data Grid</Description>
+        <Title>Console Grid</Title>
+    </PropertyGroup>
+
 </Project>
+    
