@@ -9,7 +9,7 @@ namespace ConsoleGrid
         private readonly List<Row> _rows;
         private readonly int[] _columnsWidth;
         private readonly string[] _columnsFormat;
-        private readonly string? _title;
+        private string? _title;
         private int _maxWidth;
         private string? _footer;
 
@@ -87,6 +87,9 @@ namespace ConsoleGrid
         private void PrintTitle()
         {
             PrintBorder();
+            if (_title?.Length > _maxWidth)
+                _title = _title.Substring(0, _maxWidth - 6) + "...";
+
             Console.WriteLine("| " + _title?.ToUpper().PadRight(_maxWidth - 3, ' ') + "|");
             PrintBorder();
         }
@@ -98,6 +101,12 @@ namespace ConsoleGrid
 
         private void PrintFooter()
         {
+            var length = _footer?.Length;
+            if(length > _maxWidth)
+            {
+                var startChar = length - _maxWidth;
+                _footer = "..." + _footer?.Substring(startChar.Value + 6);
+            }
             Console.WriteLine("|" + _footer?.PadLeft(_maxWidth - 3, ' ') + " |");
             PrintBorder();
         }
