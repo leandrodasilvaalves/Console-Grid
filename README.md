@@ -10,6 +10,20 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
 
 ## Exemplo:
 
+```c#
+    var produtos = new List<Produto>();
+    produtos.Add(new Produto(1, "Arroz", 20.35m, DateTime.Now));
+    produtos.Add(new Produto(2, "Feijao", 12.0m, DateTime.Now));
+    produtos.Add(new Produto(3, "Oleo", 14.16m, DateTime.Now));
+    produtos.Add(new Produto(4, "Ovo 30un", 18.0m, DateTime.Now));
+
+    var grid = new Grid("lista de produtos", 4, 20, 10, 11);            
+
+    grid.ColumnsTitle("Id", "Descricao", "Valor", "Data");
+    grid.ColumnsFormat(string.Empty, string.Empty, "{0:c2}", "{0:dd/MM/yyyy}");
+    grid.DataSource(produtos);
+    grid.Footer("Total: " + produtos.Sum(p => p.Valor).ToString("c2"));
+    grid.Print();
 ```
 ------------------------------------------------------
 | LISTA DE PRODUTOS                                  |
@@ -26,8 +40,11 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
 ------------------------------------------------------
 |                                    Total: R$ 64,51 |
 ------------------------------------------------------  
+
+## Como instalar:
+```sh
+> dotnet add package LeandroAlves.ConsoleGrid  
 ```  
 
 ## Autores
- [<img src="https://avatars.githubusercontent.com/u/24819158?v=4" width=115><br><sub>Leandro Alves</sub>](https://github.com/leandrodasilvaalves)   
-  
+ [<img src="https://avatars.githubusercontent.com/u/24819158?v=4" width=115><br><sub>Leandro Alves</sub>](https://github.com/leandrodasilvaalves)
