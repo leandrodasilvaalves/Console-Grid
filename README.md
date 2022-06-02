@@ -25,6 +25,7 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
     grid.Footer("Total: " + produtos.Sum(p => p.Valor).ToString("c2"));
     grid.Print();
 ```
+```
 ------------------------------------------------------
 | LISTA DE PRODUTOS                                  |
 ------------------------------------------------------
@@ -40,6 +41,7 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
 ------------------------------------------------------
 |                                    Total: R$ 64,51 |
 ------------------------------------------------------  
+```
 
 ## Como instalar:
 ```sh
