@@ -8,13 +8,13 @@ namespace ConsoleGrid
 
         public Column(string value, int length = 0, char paddingChar = ' ', string format = "")
         {
-            if (value.Length > length)
+            if (value?.Length > length)
                 value = value.Substring(0, length - 3) + "...";
 
             if (!string.IsNullOrEmpty(format))
                 value = string.Format(format, value);
 
-            _value = value.PadRight(length, paddingChar);
+            _value = value?.PadRight(length, paddingChar) ?? string.Empty;
             Length = length;
         }
 
