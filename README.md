@@ -8,6 +8,12 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
  - Linq
 
 
+
+## Como instalar:
+```sh
+> dotnet add package LeandroAlves.ConsoleGrid  
+```  
+
 ## Exemplo:
 
 ```c#
@@ -43,10 +49,32 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
 ------------------------------------------------------  
 ```
 
-## Como instalar:
+### Exemplo de rodapé utilizando colunas
+```c#
+    var col1 = "Qtde: " + produtos.Count;
+    var col2 = "Total: " + produtos.Sum(p => p.Valor).ToString("c2");
+    var col3 = "Média: " + produtos.Average(p => p.Valor).ToString("c2");
+
+    grid.Footer(col1, col2, col3);
+    grid.Print();
+```
 ```sh
-> dotnet add package LeandroAlves.ConsoleGrid  
-```  
+ -----------------------------------------------------------
+ | LISTA DE PRODUTOS                                       | 
+ -----------------------------------------------------------
+ | Id   | Descricao            | Valor      | Data         | 
+ -----------------------------------------------------------
+ | 1    | Arroz                | R$ 20,35   | 05/06/2022   | 
+ -----------------------------------------------------------
+ | 2    | Feijao               | R$ 12,00   | 05/06/2022   | 
+ -----------------------------------------------------------
+ | 3    | Oleo                 | R$ 14,16   | 05/06/2022   | 
+ -----------------------------------------------------------
+ | 4    | Ovo 30un             | R$ 18,00   | 05/06/2022   | 
+ -----------------------------------------------------------
+ | Qtde: 4          | Total: R$ 64,51  | Média: R$ 16,13   | 
+ -----------------------------------------------------------
+```
 
 ## Autores
  [<img src="https://avatars.githubusercontent.com/u/24819158?v=4" width=115><br><sub>Leandro Alves</sub>](https://github.com/leandrodasilvaalves)
