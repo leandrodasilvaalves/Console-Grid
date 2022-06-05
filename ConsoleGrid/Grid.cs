@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace ConsoleGrid
 {
     public class Grid
@@ -10,11 +6,11 @@ namespace ConsoleGrid
         private readonly int[] _columnsWidth;
         private readonly string[] _columnsFormat;
         private string? _title;
-        private int _maxWidth;
         private string? _footer;
+        public int MaxWidth { get; private set; }
 
-        public Grid(string title, params int[] widthColumns)
-            : this(widthColumns)
+        public Grid(string title, params int[] columnsWidth)
+            : this(columnsWidth)
         {
             _title = title;
         }
@@ -26,7 +22,7 @@ namespace ConsoleGrid
             _columnsFormat = new string[_columnsWidth.Length];
         }
 
-        public void ColumnsTitle(params string[] titles)
+        public void ColumnsName(params string[] titles)
         {
             _rows.Clear();
             var columns = new Column[titles.Length];
@@ -35,7 +31,7 @@ namespace ConsoleGrid
                 columns[i] = new Column(titles[i], _columnsWidth[i]);
 
             _rows.Add(new Row(columns));
-            _maxWidth = _rows?.FirstOrDefault()?.Width ?? 25;
+            MaxWidth = _rows?.FirstOrDefault()?.Width ?? 25;
         }
 
         public void ColumnsFormat(params string[] formats)
@@ -67,7 +63,20 @@ namespace ConsoleGrid
 
         public void Footer(string footer)
         {
-            _footer = footer;
+            _footer = new Row(new Column(footer, MaxWidth - 6)).Value;
+        }
+
+        public void Footer(params string[] values)
+        {
+            var columns = new Column[values.Length];
+            var width = (MaxWidth / values.Length) - 4;
+
+            for (var i = 0; i < columns.Length; i++)
+            {
+                columns[i] = new Column(values[i], width);
+            }
+
+            _footer = new Row(columns).Rebalance(MaxWidth).Value;
         }
 
         public void Print()
@@ -87,27 +96,18 @@ namespace ConsoleGrid
         private void PrintTitle()
         {
             PrintBorder();
-            if (_title?.Length > _maxWidth)
-                _title = _title.Substring(0, _maxWidth - 6) + "...";
-
-            Console.WriteLine("| " + _title?.ToUpper().PadRight(_maxWidth - 3, ' ') + "|");
-            PrintBorder();
+            _title = _title?.ToUpper();
+            Console.WriteLine(new Row(new Column(_title ?? string.Empty, MaxWidth - 6)));
         }
 
         private void PrintBorder()
         {
-            Console.WriteLine(new string('-', _maxWidth));
+            Console.WriteLine(" " + new string('-', MaxWidth - 2));
         }
 
         private void PrintFooter()
         {
-            var length = _footer?.Length;
-            if(length > _maxWidth)
-            {
-                var startChar = length - _maxWidth;
-                _footer = "..." + _footer?.Substring(startChar.Value + 6);
-            }
-            Console.WriteLine("|" + _footer?.PadLeft(_maxWidth - 3, ' ') + " |");
+            Console.WriteLine(_footer);
             PrintBorder();
         }
     }
