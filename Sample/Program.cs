@@ -11,10 +11,11 @@ namespace Sample
             produtos.Add(new Produto(2, "Feijao", 12.0m, DateTime.Now));
             produtos.Add(new Produto(3, "Oleo", 14.16m, DateTime.Now));
             produtos.Add(new Produto(4, "Ovo 30un", 18.0m, DateTime.Now));
-            
+
             var grid = new Grid("lista de produtos", 4, 20, 10, 12);
             grid.ColumnsName("Id", "Descricao", "Valor", "Data");
             grid.ColumnsFormat(string.Empty, string.Empty, "{0:c2}", "{0:dd/MM/yyyy}");
+            grid.ColumnsAlign(Align.RIGHT, Align.LEFT, Align.RIGHT, Align.RIGHT);
             grid.DataSource(produtos);
 
             Sample1(produtos, grid);
@@ -22,16 +23,17 @@ namespace Sample
 
             Sample2(produtos, grid);
             Console.WriteLine("\n");
-            
+
             Sample3(produtos, grid);
             Console.WriteLine("\n");
-            
+
             Sample4(produtos, grid);
         }
 
         static void Sample1(List<Produto> produtos, Grid grid)
-        {   
-            grid.Footer("Total: " + produtos.Sum(p => p.Valor).ToString("c2"));
+        {
+            var text = "Total: " + produtos.Sum(p => p.Valor).ToString("c2");
+            grid.Footer(text, Align.RIGHT);
             grid.Print();
         }
 
@@ -40,6 +42,7 @@ namespace Sample
             var col1 = "Qtde: " + produtos.Count;
             var col2 = "Total: " + produtos.Sum(p => p.Valor).ToString("c2");
 
+            grid.FooterAlign(Align.LEFT, Align.RIGHT);
             grid.Footer(col1, col2);
             grid.Print();
         }

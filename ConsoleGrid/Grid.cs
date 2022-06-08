@@ -5,8 +5,11 @@ namespace ConsoleGrid
         private readonly List<Row> _rows;
         private readonly int[] _columnsWidth;
         private readonly string[] _columnsFormat;
+        private Align[]? _aligns;
+        private Align[]? _footerAlings;
         private string? _title;
         private string? _footer;
+
         public int MaxWidth { get; private set; }
 
         public Grid(string title, params int[] columnsWidth)
@@ -34,6 +37,11 @@ namespace ConsoleGrid
             MaxWidth = _rows?.FirstOrDefault()?.Width ?? 25;
         }
 
+        public void ColumnsAlign(params Align[] aligns)
+        {
+            _aligns = aligns;
+        }
+
         public void ColumnsFormat(params string[] formats)
         {
             for (var i = 0; i < _columnsFormat.Length; i++)
@@ -54,16 +62,23 @@ namespace ConsoleGrid
                 {
                     var fmt = _columnsFormat[i];
                     var value = string.IsNullOrEmpty(fmt) ? $"{prop.GetValue(obj)}" : string.Format(fmt, prop.GetValue(obj));
-                    columns[i] = new Column(value, _columnsWidth[i], format: fmt);
+
+                    var align = Align.LEFT;
+                    if (_aligns is not null && _aligns.Length > i)
+                    {
+                        align = _aligns[i];
+                    }
+
+                    columns[i] = new Column(value, _columnsWidth[i], format: fmt, align: align);
                     i++;
                 }
                 _rows.Add(new Row(columns));
             }
         }
 
-        public void Footer(string footer)
+        public void Footer(string footer, Align align = default)
         {
-            _footer = new Row(new Column(footer, MaxWidth - 6)).Value;
+            _footer = new Row(new Column(footer, MaxWidth - 6, align: align)).Value;
         }
 
         public void Footer(params string[] values)
@@ -73,10 +88,20 @@ namespace ConsoleGrid
 
             for (var i = 0; i < columns.Length; i++)
             {
-                columns[i] = new Column(values[i], width);
+                var align = Align.LEFT;
+                if (_footerAlings is not null && _footerAlings.Length == values.Length)
+                {
+                    align = _footerAlings[i];
+                }
+                columns[i] = new Column(values[i], width, align: align);
             }
 
             _footer = new Row(columns).Rebalance(MaxWidth).Value;
+        }
+
+        public void FooterAlign(params Align[] aligns)
+        {
+            _footerAlings = aligns;
         }
 
         public void Print()
@@ -111,5 +136,4 @@ namespace ConsoleGrid
             PrintBorder();
         }
     }
-
 }
