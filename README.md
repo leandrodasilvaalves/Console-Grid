@@ -25,7 +25,7 @@ O objetivo deste projeto é simular uma grid de visualização simples utilizand
 
     var grid = new Grid("lista de produtos", 4, 20, 10, 11);            
 
-    grid.ColumnsTitle("Id", "Descricao", "Valor", "Data");
+    grid.ColumnsName("Id", "Descricao", "Valor", "Data");
     grid.ColumnsFormat(string.Empty, string.Empty, "{0:c2}", "{0:dd/MM/yyyy}");
     grid.ColumnsAlign(Align.RIGHT, Align.LEFT, Align.RIGHT, Align.RIGHT);
     grid.DataSource(produtos);
